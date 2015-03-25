@@ -11,13 +11,13 @@ $post_guest = $params->get( 'post_guest' );
 $tag	 	= $params->get( 'tag' );
 $soundopt	= $params->get( 'sound' );
 $loggedin 	= modShoutboxHelper::getType();
-$user 		=& JFactory::getUser();
+$user 		= JFactory::getUser();
 $jal_lastID    = isset($_GET['jal_lastID']) ? $_GET['jal_lastID'] : "";
 $jalGetChat    = isset($_GET['jalGetChat']) ? $_GET['jalGetChat'] : "";
 $jalSendChat   = isset($_GET['jalSendChat']) ? $_GET['jalSendChat'] : "";
 
 //Make the urls to get the shouts
-$uri =& JURI::getInstance(modShoutboxHelper::curPageURL());
+$uri = JURI::getInstance(modShoutboxHelper::curPageURL());
 //getshouts
 $uri->delVar('mode');
 $param = $uri->getQuery(true);
@@ -103,8 +103,8 @@ if (isset($_POST['shout_no_js'])) {
 
 
 JHTML::_('behavior.mootools');
-$module_base     = JURI::base() . 'modules/mod_shoutbox/';
-$document =& JFactory::getDocument();
+$module_base = JURI::base() . 'modules/mod_shoutbox/';
+$document = JFactory::getDocument();
 $document->addScript($module_base . 'js/fatAjax.js');
 if(JPluginHelper::isEnabled('system', 'yvsmiley')) {
 	if($params->get('post_guest') || $loggedin != 'guest') {

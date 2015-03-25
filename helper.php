@@ -3,14 +3,14 @@ defined('_JEXEC') or die('Restricted access');
 
 class modShoutboxHelper {
 	
-	function addShout($name, $url, $text, $tag, &$params)
+	static function addShout($name, $url, $text, $tag, &$params)
 	{		
 		header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
 		header( "Last-Modified: ".gmdate( "D, d M Y H:i:s" )."GMT" ); 
 		header( "Cache-Control: no-cache, must-revalidate" ); 
 		header( "Pragma: no-cache" );
 		header( "Content-Type: text/html; charset=utf-8" );
-		$user		=& JFactory::getUser();
+		$user = JFactory::getUser();
 		$userid = $user->get('id');
 		if ($name != '' && $text != '' ) {
 			($tag && $userid == 0) ? $name = '['.$name.']' : $name;
@@ -19,7 +19,7 @@ class modShoutboxHelper {
 		exit();
 	}
 	
-	function delShout($id)
+	static function delShout($id)
 	{
 		header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
 		header( "Last-Modified: ".gmdate( "D, d M Y H:i:s" )."GMT" ); 
@@ -27,7 +27,7 @@ class modShoutboxHelper {
 		header( "Pragma: no-cache" );
 		header( "Content-Type: text/html; charset=utf-8" );
 		
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = 'DELETE FROM #__shoutbox WHERE id='. (int) $id;
 		$db->setQuery($query);
 		if (!$db->query()) {
@@ -36,9 +36,9 @@ class modShoutboxHelper {
 		}
 	}
 	
-	function jal_addData($name,$url,$text, &$params) {
-		$db = & JFactory::getDBO();
-		$user 		=& JFactory::getUser();
+	static function jal_addData($name,$url,$text, &$params) {
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 		
 		if($user->get('guest') && !$params->get( 'post_guest' )) {
 			return;
@@ -70,23 +70,24 @@ class modShoutboxHelper {
 		return false;
 	} 
 	
-	function deleteOld() {
+	static function deleteOld() {
 		
 	}
 	
-	function getShouts($shouts) {
+	static function getShouts($shouts) {
 		$mainframe = JFactory::getApplication();
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = 'SELECT * FROM #__shoutbox ORDER BY id DESC';
 		$db->setQuery( $query , 0 , $shouts);
 		$rows = $db->loadObjectList();
 		if ($db->getErrorNum()) {
 			modShoutboxHelper::install();
 		}
-		$i		= 0;
+		$i = 0;
 		$shouts	= array();
 		foreach ( $rows as $row ) {
+			$shouts[$i] = new stdClass();
 			$shouts[$i]->name = $row->name;
 			$shouts[$i]->text = $row->text;
 			$shouts[$i]->text = preg_replace( "`(http|ftp)+(s)?:(//)((\w|\.|\-|_)+)(/)?(\S+)?`i", "<a href=\"\\0\">&laquo;link&raquo;</a>", $shouts[$i]->text);
@@ -103,11 +104,11 @@ class modShoutboxHelper {
 		return $shouts;
 	}
 	
-	function getAjaxShouts($shouts) {
+	static function getAjaxShouts($shouts) {
 		$mainframe = JFactory::getApplication();
 		
-		$db =& JFactory::getDBO();
-		$user 		=& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 		$maydelete = $user->authorize('com_content', 'edit', 'content', 'all');
 		
 		$jal_lastID = JRequest::getInt( 'jal_lastID',			0		 );
@@ -135,8 +136,8 @@ class modShoutboxHelper {
 		return $shouts;
 	}
 	
-	function install() {
-		$db		=& JFactory::getDBO();
+	static function install() {
+		$db = JFactory::getDBO();
 		$query = "CREATE TABLE IF NOT EXISTS #__shoutbox (
 	  		`id` int(11) NOT NULL auto_increment,
 	  		`time` int(11) DEFAULT '0' NOT NULL,
@@ -155,13 +156,13 @@ class modShoutboxHelper {
 		$db->query();
 	}
 	
-	function getType()
+	static function getType()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 	    return (!$user->get('guest')) ? 'user' : 'guest';
 	}
 	
-	function time_since($original) {
+	static function time_since($original) {
 	    // array of time period chunks
 	    $chunks = array(
 	        array(60 * 60 * 24 * 365 , JText::_( 'YEAR'), JText::_( 'YEARS')),
@@ -203,7 +204,8 @@ class modShoutboxHelper {
 	    }
 	return $print;
 	}
-	function curPageURL() {
+
+	static function curPageURL() {
 		$pageURL = 'http';
 		if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
 		$pageURL .= "://";
