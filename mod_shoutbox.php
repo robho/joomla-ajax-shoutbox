@@ -3,14 +3,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once( dirname(__FILE__).DS.'helper.php' );
+require_once(dirname(__FILE__).DS.'helper.php');
 
-$shouts 	= intval($params->get( 'shouts', 10 ));
-$refresh 	= intval($params->get( 'refresh', 4 ));
-$post_guest = $params->get( 'post_guest' );
-$tag	 	= $params->get( 'tag' );
-$loggedin 	= modShoutboxHelper::getType();
-$user 		= JFactory::getUser();
+$shouts = intval($params->get('shouts', 10));
+$post_guest = $params->get('post_guest');
+$tag = $params->get('tag');
+$loggedin = modShoutboxHelper::getType();
+$user = JFactory::getUser();
 
 //Make the urls to get the shouts
 $uri = JURI::getInstance(modShoutboxHelper::curPageURL());
@@ -34,12 +33,11 @@ $uri->setQuery($query);
 $delshout = $uri->toString();
 $uri->delVar('mode');
 
-
-$name = JRequest::getVar( 'n',			'',			'post' ); 
-$url  = JRequest::getVar( 'u',			'',			'post' );
-$text = JRequest::getVar( 'c',			'',			'post' );
-$homepage = JRequest::getVar( 'h',			'',			'post' );
-$shoutid = JRequest::getInt( 'shoutid',			'',			'get' ); 
+$name = JRequest::getVar('n', '', 'post');
+$url  = JRequest::getVar('u', '', 'post');
+$text = JRequest::getVar('c', '', 'post');
+$homepage = JRequest::getVar('h', '', 'post');
+$shoutid = JRequest::getInt('shoutid', '', 'get');
 
 $maydelete = $user->authorise('core.delete');
 
@@ -48,63 +46,61 @@ $mode = JRequest::getCmd('mode');
 
 switch ($mode) {
 case 'addshout':
-	if(empty($homepage)) {
-		modShoutboxHelper::addShout($name, $url, $text, $tag, $params);
-	}
-	break;
+  if (empty($homepage)) {
+    modShoutboxHelper::addShout($name, $url, $text, $tag, $params);
+  }
+  break;
 case 'delshout':
-	if($maydelete) {
-		modShoutboxHelper::delShout($shoutid);
-	}
-	break;
+  if ($maydelete) {
+    modShoutboxHelper::delShout($shoutid);
+  }
+  break;
 }
 
 //getList
 
-if($mode == 'getshouts') {
-	header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-	header( "Last-Modified: ".gmdate( "D, d M Y H:i:s" )."GMT" ); 
-	header( "Cache-Control: no-cache, must-revalidate" ); 
-	header( "Pragma: no-cache" );
-	header( "Content-Type: text/html; charset=utf-8" );
-	$loop = '';
-	$ajaxshouts = modShoutBoxHelper::getAjaxShouts($shouts);
-	foreach ( $ajaxshouts as $shout ) {
-		$loop = $shout->id."###".stripslashes($shout->name)."###".stripslashes($shout->text)."###0 minutes ago###".stripslashes($shout->url)."###" . $loop; 
-		// ### is being used to separate the fields in the output
-	}
-	if (empty($loop)) { 
-	 	$loop = "0"; 
-	}
-	ob_clean();
-	echo $loop;
-	exit;
+if ($mode == 'getshouts') {
+  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+  header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
+  header("Cache-Control: no-cache, must-revalidate");
+  header("Pragma: no-cache");
+  header("Content-Type: text/html; charset=utf-8");
+  $loop = '';
+  $ajaxshouts = modShoutBoxHelper::getAjaxShouts($shouts);
+  foreach ($ajaxshouts as $shout) {
+    $loop = $shout->id."###".stripslashes($shout->name)."###".stripslashes($shout->text)."###0 minutes ago###".stripslashes($shout->url)."###" . $loop;
+    // ### is being used to separate the fields in the output
+  }
+  if (empty($loop)) {
+    $loop = "0";
+  }
+  ob_clean();
+  echo $loop;
+  exit;
 }
 
 $list = modShoutboxHelper::getShouts($shouts);
 
-
-
 if (isset($_POST['shout_no_js'])) {
-	JRequest::checkToken() or jexit( 'Invalid Token' );
-	if ($_POST['shoutboxname'] != '' && $_POST['chatbarText'] != '' && empty($homepage)) {
-		$name = $_POST['shoutboxname'];
-		($tag) ? $name = '['.$name.']' : $name;
-		modShoutboxHelper::jal_addData($name, $_POST['shoutboxurl'], $_POST['chatbarText'], $params);
-		header('location: '.$_SERVER['HTTP_REFERER']);
-	} else {
-		echo "You must have a name and a comment";
-	}
+  JRequest::checkToken() or jexit('Invalid Token');
+  if ($_POST['shoutboxname'] != '' && $_POST['chatbarText'] != '' && empty($homepage)) {
+    $name = $_POST['shoutboxname'];
+    ($tag) ? $name = '['.$name.']' : $name;
+    modShoutboxHelper::jal_addData($name, $_POST['shoutboxurl'], $_POST['chatbarText'], $params);
+    header('location: '.$_SERVER['HTTP_REFERER']);
+  } else {
+    echo "You must have a name and a comment";
+  }
 }
 
 JHtml::_('behavior.framework');
 $module_base = JURI::base() . 'modules/mod_shoutbox/';
 $document = JFactory::getDocument();
 $document->addScript($module_base . 'js/fatAjax.js');
-if(JPluginHelper::isEnabled('system', 'yvsmiley')) {
-	if($params->get('post_guest') || $loggedin != 'guest') {
-		$document->addScript($module_base . 'js/sbsmile.js');
-	}
+if (JPluginHelper::isEnabled('system', 'yvsmiley')) {
+  if ($params->get('post_guest') || $loggedin != 'guest') {
+    $document->addScript($module_base . 'js/sbsmile.js');
+  }
 }
 $document->addStyleSheet($module_base . 'css/mod_shoutbox.css');
 
