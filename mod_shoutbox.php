@@ -45,7 +45,7 @@ $text = JRequest::getVar( 'c',			'',			'post' );
 $homepage = JRequest::getVar( 'h',			'',			'post' );
 $shoutid = JRequest::getInt( 'shoutid',			'',			'get' ); 
 
-$maydelete = $user->authorize('com_content', 'edit', 'content', 'all');
+$maydelete = $user->authorise('core.delete');
 
 $mode = JRequest::getCmd('mode');
 //$ajaxcall = isset($_SERVER["HTTP_X_REQUESTED_WITH"]) ? ($_SERVER["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest") : false;
