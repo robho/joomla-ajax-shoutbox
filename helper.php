@@ -109,9 +109,9 @@ class modShoutboxHelper {
 		
 		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
-		$maydelete = $user->authorize('com_content', 'edit', 'content', 'all');
+		$maydelete = $user->authorise('core.delete');
 		
-		$jal_lastID = JRequest::getInt( 'jal_lastID',			0		 );
+		$jal_lastID = JRequest::getInt('jal_lastID', 0);
 
 		$query = 'SELECT * FROM #__shoutbox WHERE id > '. (int) $jal_lastID.' ORDER BY id DESC';
 		$db->setQuery( $query , 0 , $shouts);
