@@ -9,12 +9,8 @@ $shouts 	= intval($params->get( 'shouts', 10 ));
 $refresh 	= intval($params->get( 'refresh', 4 ));
 $post_guest = $params->get( 'post_guest' );
 $tag	 	= $params->get( 'tag' );
-$soundopt	= $params->get( 'sound' );
 $loggedin 	= modShoutboxHelper::getType();
 $user 		= JFactory::getUser();
-$jal_lastID    = isset($_GET['jal_lastID']) ? $_GET['jal_lastID'] : "";
-$jalGetChat    = isset($_GET['jalGetChat']) ? $_GET['jalGetChat'] : "";
-$jalSendChat   = isset($_GET['jalSendChat']) ? $_GET['jalSendChat'] : "";
 
 //Make the urls to get the shouts
 $uri = JURI::getInstance(modShoutboxHelper::curPageURL());
