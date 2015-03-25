@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>mod_shoutbox</name>
+	<author>Bart Jochems</author>
+	<creationDate>March 2014</creationDate>
+	<copyright>(C) Bart Jochems</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@batjo.nl</authorEmail>
+	<authorUrl>http://joomla.batjo.nl</authorUrl>
+	<version>1.7</version>
+	<description>This module displays a shoutbox that gets automatically refresh through AJAX.</description>
+
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<files>
+		<filename module="mod_shoutbox">mod_shoutbox.php</filename>
+		<filename module="mod_shoutbox">helper.php</filename>
+		<filename module="mod_shoutbox">index.html</filename>
+		<folder>sql</folder>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_shoutbox.ini</language>
+		<language tag="en-GB">en-GB.mod_shoutbox.sys.ini</language>
+    </languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="shouts" type="text" default="10" label="NUMBER_OF_SHOUTS" description="NUMBER_OF_SHOUTS_DESC" />
+				<field name="refresh" type="text" default="4" label="REFRESH_RATE" description="REFRESH_RATE_DESC" />
+				<field name="fadefrom" type="text" default="#000000" label="FADE_FROM" description="FADE_FROM_DESC" />
+				<field name="fadeto" type="text" default="#FFFFFF" label="FADE_TO" description="FADE_TO_DESC" />
+				<field name="submit" type="list" default="0" label="SEND_BUTTON" description="SEND_BUTTON_DESC">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="post_guest" type="list" default="1" label="ALLOW_GUEST_POSTING">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="name" type="list" default="0" label="USERNAME_FULLNAME">
+					<option value="0">MOD_SHOUTBOX_FULLNAME</option>
+					<option value="1">MOD_SHOUTBOX_USERNAME</option>
+				</field>
+				<field name="tag" type="list" default="1" label="GUEST_TAG">
+					<option value="0">JOff</option>
+					<option value="1">JOn</option>
+				</field>
+				<field name="url" type="list" default="0" label="URL_FIELD">
+					<option value="0">JOff</option>
+					<option value="1">JOn</option>
+				</field>
+				<field name="textarea" type="list" default="1" label="TEXTAREA_DISPLAY">
+					<option value="0">JOff</option>
+					<option value="1">JOn</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="0" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
