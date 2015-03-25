@@ -101,8 +101,7 @@ if (isset($_POST['shout_no_js'])) {
 	}
 }
 
-
-JHTML::_('behavior.mootools');
+JHTML::_('behavior.framework', true);
 $module_base = JURI::base() . 'modules/mod_shoutbox/';
 $document = JFactory::getDocument();
 $document->addScript($module_base . 'js/fatAjax.js');
