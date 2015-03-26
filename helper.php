@@ -69,10 +69,6 @@ class modShoutboxHelper {
     return false;
   }
 
-  static function deleteOld() {
-
-  }
-
   static function getShouts($shouts) {
     $mainframe = JFactory::getApplication();
 
