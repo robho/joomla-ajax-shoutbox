@@ -13,25 +13,13 @@ $user = JFactory::getUser();
 
 //Make the urls to get the shouts
 $uri = JURI::getInstance(modShoutboxHelper::curPageURL());
-//getshouts
-$uri->delVar('mode');
-$param = $uri->getQuery(true);
-$query = array_merge($param, array('mode' => 'getshouts'));
-$uri->setQuery($query);
+
+$uri->setVar('mode', 'getshouts');
 $getshouts = $uri->toString();
-//addshouts
-$uri->delVar('mode');
-$param = $uri->getQuery(true);
-$query = array_merge($param, array('mode' => 'addshout'));
-$uri->setQuery($query);
+$uri->setVar('mode', 'addshout');
 $addshout = $uri->toString();
-$uri->delVar('mode');
-//delshouts
-$param = $uri->getQuery(true);
-$query = array_merge($param, array('mode' => 'delshout'));
-$uri->setQuery($query);
+$uri->setVar('mode', 'delshout');
 $delshout = $uri->toString();
-$uri->delVar('mode');
 
 $name = JRequest::getVar('n', '', 'post');
 $url  = JRequest::getVar('u', '', 'post');
