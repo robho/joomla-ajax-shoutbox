@@ -60,7 +60,6 @@
 			<?php else: ?>
 			<input type="text" name="chatbarText" id="chatbarText" class="inputbox" onkeypress="return pressedEnter(this,event);"/>
 			<?php endif; ?>
-			<input type="text" name="website" id="website" class="website" />
 		</p>
 		<?php if(JPluginHelper::isEnabled('system', 'yvsmiley')): ?>
 		<a id="toggle" href="#" name="toggle"><?php echo JText::_( 'SMILEYS'); ?></a>

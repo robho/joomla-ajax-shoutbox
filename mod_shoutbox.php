@@ -24,7 +24,6 @@ $delshout = $uri->toString();
 $name = JRequest::getVar('n', '', 'post');
 $url  = JRequest::getVar('u', '', 'post');
 $text = JRequest::getVar('c', '', 'post');
-$homepage = JRequest::getVar('h', '', 'post');
 $shoutid = JRequest::getInt('shoutid', '', 'get');
 
 $maydelete = $user->authorise('core.delete');
@@ -34,9 +33,7 @@ $mode = JRequest::getCmd('mode');
 
 switch ($mode) {
 case 'addshout':
-  if (empty($homepage)) {
-    modShoutboxHelper::addShout($name, $url, $text, $tag, $params);
-  }
+  modShoutboxHelper::addShout($name, $url, $text, $tag, $params);
   break;
 case 'delshout':
   if ($maydelete) {
@@ -71,7 +68,7 @@ $list = modShoutboxHelper::getShouts($shouts);
 
 if (isset($_POST['shout_no_js'])) {
   JRequest::checkToken() or jexit('Invalid Token');
-  if ($_POST['shoutboxname'] != '' && $_POST['chatbarText'] != '' && empty($homepage)) {
+  if ($_POST['shoutboxname'] != '' && $_POST['chatbarText'] != '') {
     $name = $_POST['shoutboxname'];
     ($tag) ? $name = '['.$name.']' : $name;
     modShoutboxHelper::jal_addData($name, $_POST['shoutboxurl'], $_POST['chatbarText'], $params);

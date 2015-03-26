@@ -234,8 +234,7 @@ function sendComment() {
 		if (currentChatText == '') return;
 		currentName = document.getElementById('shoutboxname').value;
 		currentUrl = document.getElementById('shoutboxurl').value;
-		homepage = document.getElementById('website').value;
-		param = 'n='+ encodeURIComponent(currentName)+'&c='+ encodeURIComponent(currentChatText) +'&u='+ encodeURIComponent(currentUrl) +'&h='+ encodeURIComponent(homepage);	
+		param = 'n='+ encodeURIComponent(currentName)+'&c='+ encodeURIComponent(currentChatText) +'&u='+ encodeURIComponent(currentUrl);
 		httpSendChat.open("POST", SendChaturl, true);
 		httpSendChat.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
   		httpSendChat.onreadystatechange = receiveOneChatText;
